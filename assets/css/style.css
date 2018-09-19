@@ -1,0 +1,14 @@
+body {
+    background-image: url("../images/tiny-squares.png");
+    margin:60px;
+}
+.jumbotron {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+#start {
+    margin-top:20px;
+}
+#start:hover {
+    background-color:red;
+}
