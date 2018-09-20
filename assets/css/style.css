@@ -12,3 +12,12 @@ body {
 #start:hover {
     background-color:red;
 }
+#time {
+    display:none;
+}
+.PA {
+    margin-top: 20px;
+}
+.PA:hover {
+    background-color: blue;
+}

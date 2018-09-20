@@ -1,6 +1,6 @@
 var gameQuestions = {
     "q1": {
-        q: "What disney movie was the first movie ever to release a soundtrack",
+        q: "What disney movie was the first movie ever to release a soundtrack?",
         p1: "Dumbo",
         p2: "Fantasia",
         p3: "Cinderella",
@@ -8,7 +8,7 @@ var gameQuestions = {
         message: "In 1944, Snow White became the first film to ever release a soundtrack"  
     },
     "q2": {
-        q: "What is disnye's shortest feature movie",
+        q: "What is disnye's shortest feature movie?",
         p1: "Cinderella",
         p2: "Bambi",
         p3:  "Pinocchio",
@@ -16,7 +16,7 @@ var gameQuestions = {
         message: "Dumbo is only 64 minutes long!"
     },
     "q3": {
-        qt: 'What was the first truly "Original" Disney Film',
+        qt: 'What was the first truly "Original" Disney Film?',
         p1: "Beauty and the Beast",
         p2: "Toy Story",
         p3: "Mulan",
@@ -29,26 +29,72 @@ var gameQuestions = {
 // Create functions for when user clicks an answer 
 //Timeout function for when time runs out 
 // 
-
-
 var qnum = 1;
+var timer = 30;
+var timerInterval;
+var random = ["1","2","3","4"];
+var qp;
+
+function gameInterval(){
+        clearInterval(timerInterval);
+        timerInterval = setInterval(gameTimer, 1000); 
+}
+function gameTimer(){
+    timer--;
+    $("#time").text("Time remaining: "+timer+" seconds")
+}
+function shuffle() {
+    var currentIndex = random.length;
+    var tempValue;
+    var randomIndex;
+    while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random()*currentIndex);
+        currentIndex -= 1;
+        tempValue = random[currentIndex];
+        random[currentIndex] =random[randomIndex];
+        random[randomIndex] = tempValue;
+        console.log("currentIndex="+currentIndex);
+        console.log("tempValue="+tempValue);
+        console.log("randomIndex="+randomIndex);
+        console.log("--------");
+    }
+    console.log(random);
+}
+function userPick() {
+            $(".jumbotron").one("click", ".PA", function() {
+                var pick = this.textContent;
+                console.log(pick)
+                if (pick === gameQuestions["q"+qnum].qa){
+                    console.log("correct");
+                }
+                else {
+                    console.log("wrong");
+                }
+            });
+}
+
+function gameloop() {
+    gameInterval();
+    shuffle();
+    $("#question").text(gameQuestions["q"+qnum].q);
+    $("#pa"+random[0]).text(gameQuestions["q"+qnum].qa);
+    $("#pa"+random[1]).text(gameQuestions["q"+qnum].p1);
+    $("#pa"+random[2]).text(gameQuestions["q"+qnum].p2);
+    $("#pa"+random[3]).text(gameQuestions["q"+qnum].p3);
+    userPick();
+    if (timer < 1) {
+        console.log("times up");
+    }
+ 
+    }
+
 
 $("#start").on("click", function() {
     $("#start").css("display", "none");
+    $("#time").css("display", "block");
     gameloop();
+ 
+   
   
 });
-
-function gameloop() {
-    var currentq = "gameQuestion.q"+qnum+".q";
-
-    $("#question").text(gameQuestions["q"+qnum].q);
-
-    console.log(gameQuestions["q"+qnum].q);
-
-    }
-function currentquestion(){
-    $
-}
-
-console.log(gameQuestions.q1)
+console.log(Math.floor(Math.random()*4));
