@@ -21,3 +21,9 @@ body {
 .PA:hover {
     background-color: blue;
 }
+#moviePoster {
+    display:"none";
+    
+    
+
+}

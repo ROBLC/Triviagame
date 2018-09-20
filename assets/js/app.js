@@ -5,7 +5,8 @@ var gameQuestions = {
         p2: "Fantasia",
         p3: "Cinderella",
         qa: "Snow White",
-        message: "In 1944, Snow White became the first film to ever release a soundtrack"  
+        message: "In 1944, Snow White became the first film to ever release a soundtrack",
+        poster:  "https://www.omdbapi.com/?t=snow+white&y=1937&apikey=trilogy"
     },
     "q2": {
         q: "What is disnye's shortest feature movie?",
@@ -36,12 +37,16 @@ var random = ["1","2","3","4"];
 var qp;
 
 function gameInterval(){
-        clearInterval(timerInterval);
+        stop();
         timerInterval = setInterval(gameTimer, 1000); 
 }
 function gameTimer(){
     timer--;
     $("#time").text("Time remaining: "+timer+" seconds")
+    if (timer === 0) {
+        stop();
+        console.log("times up");
+    }
 }
 function shuffle() {
     var currentIndex = random.length;
@@ -63,14 +68,37 @@ function shuffle() {
 function userPick() {
             $(".jumbotron").one("click", ".PA", function() {
                 var pick = this.textContent;
+                var movieURL = "https://www.omdbapi.com/?t=" + pick + "&apikey=trilogy";
+                var movie= {};
                 console.log(pick)
                 if (pick === gameQuestions["q"+qnum].qa){
+                    stop();
+                    $("#question").text("That is correct!!");
+                    $("#message").text(gameQuestions["q"+qnum].message);
+                    $("#pa1").text("");
+                    $("#pa2").text("");
+                    $("#pa3").text("");
+                    $("#pa4").text("");
+                    $.ajax({
+                        url: gameQuestions["q"+qnum].poster,
+                        method: "GET"
+                      }).then(function(response) {
+                        movie = response;
+                        console.log(movie);
+                        $("#moviePoster").attr("src", movie.Poster);
+                        $("#moviePoster").css({display: "block",  width:"150px",height:"225px"});
+                      });
+                  
+
                     console.log("correct");
                 }
                 else {
                     console.log("wrong");
                 }
             });
+}
+function stop() {
+    clearInterval(timerInterval)
 }
 
 function gameloop() {
@@ -82,10 +110,6 @@ function gameloop() {
     $("#pa"+random[2]).text(gameQuestions["q"+qnum].p2);
     $("#pa"+random[3]).text(gameQuestions["q"+qnum].p3);
     userPick();
-    if (timer < 1) {
-        console.log("times up");
-    }
- 
     }
 
 
