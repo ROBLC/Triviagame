@@ -14,15 +14,17 @@ var gameQuestions = {
         p2: "Bambi",
         p3:  "Pinocchio",
         qa: "Dumbo",
-        message: "Dumbo is only 64 minutes long!"
+        message: "Dumbo is only 64 minutes long!",
+        poster:  "https://www.omdbapi.com/?t=dumbo&apikey=trilogy"
     },
     "q3": {
-        qt: 'What was the first truly "Original" Disney Film?',
+        q: 'What was the first truly "Original" Disney Film?',
         p1: "Beauty and the Beast",
         p2: "Toy Story",
         p3: "Mulan",
         qa: "The Lion King",
-        message: "The Lion King was the first Disney animated film to feature a completely original storyline—that is, one that was not an adaptation of a preexisting story"
+        message: "The Lion King was the first Disney animated film to feature a completely original storyline—that is, one that was not an adaptation of a preexisting story",
+        poster:  "https://www.omdbapi.com/?t=Lion+King&apikey=trilogy"
     },
 };
 
@@ -34,10 +36,13 @@ var qnum = 1;
 var timer = 30;
 var timerInterval;
 var random = ["1","2","3","4"];
-var qp;
-
+var correctAnswers = 0;
+var wrongAnswers;
+var unanswered;
 function gameInterval(){
         stop();
+        timer =30;
+        $("#time").text("Time remaining: "+timer+" seconds")
         timerInterval = setInterval(gameTimer, 1000); 
 }
 function gameTimer(){
@@ -57,24 +62,22 @@ function shuffle() {
         currentIndex -= 1;
         tempValue = random[currentIndex];
         random[currentIndex] =random[randomIndex];
-        random[randomIndex] = tempValue;
-        console.log("currentIndex="+currentIndex);
-        console.log("tempValue="+tempValue);
-        console.log("randomIndex="+randomIndex);
-        console.log("--------");
+        random[randomIndex] = tempValue
     }
     console.log(random);
 }
 function userPick() {
             $(".jumbotron").one("click", ".PA", function() {
                 var pick = this.textContent;
-                var movieURL = "https://www.omdbapi.com/?t=" + pick + "&apikey=trilogy";
-                var movie= {};
                 console.log(pick)
-                if (pick === gameQuestions["q"+qnum].qa){
+              
+                    if (pick === gameQuestions["q"+qnum].qa){
                     stop();
+                    $("#message").css("display", "block")
+                    $(".PA").css("display", "none")
                     $("#question").text("That is correct!!");
                     $("#message").text(gameQuestions["q"+qnum].message);
+                    console.log(gameQuestions["q"+qnum].message);
                     $("#pa1").text("");
                     $("#pa2").text("");
                     $("#pa3").text("");
@@ -86,15 +89,23 @@ function userPick() {
                         movie = response;
                         console.log(movie);
                         $("#moviePoster").attr("src", movie.Poster);
-                        $("#moviePoster").css({display: "block",  width:"150px",height:"225px"});
+                        $("#moviePoster").css({display: "initial", width: "150px", height: "225px"});
                       });
-                  
 
+                    setTimeout  (function() {
+                    qnum++;
+                    correctAnswers++;
+                      console.log(qnum);
+                        reset();
+                        gameloop();
+                  }, 2000);
                     console.log("correct");
                 }
-                else {
+                    else {
                     console.log("wrong");
                 }
+              
+               
             });
 }
 function stop() {
@@ -102,15 +113,51 @@ function stop() {
 }
 
 function gameloop() {
+    reset();
     gameInterval();
     shuffle();
-    $("#question").text(gameQuestions["q"+qnum].q);
-    $("#pa"+random[0]).text(gameQuestions["q"+qnum].qa);
-    $("#pa"+random[1]).text(gameQuestions["q"+qnum].p1);
-    $("#pa"+random[2]).text(gameQuestions["q"+qnum].p2);
-    $("#pa"+random[3]).text(gameQuestions["q"+qnum].p3);
-    userPick();
+    if (qnum === 4) {
+        stop();
+        $("#message").css("display", "initial")
+        $("#question").css("display", "none")
+        $("#message").text("You finished, here's how you did");
+        $(".end").css("display", "initial");
+        $("#pa1").text("");
+        $("#pa2").text("");
+        $("#pa3").text("");
+        $("#pa4").text("");
+        $("#correct").text("Correct answers: "+correctAnswers);
+        $("#wrong").text("Wrong answers: "+wrongAnswers);
+        $("#unanswered").text("Correct answers: "+unanswered);
+        $("#time").css("display", "none");
+        $("#playAgain").on("click", function() {
+            $("#start").css("display", "none");
+            $("#time").css("display", "block");
+            qnum=1;
+            gameloop();
+            console.log("hi");
+        });
+        
+
     }
+    else {
+        $("#moviePoster").css("display", "none")
+        $("#question").text(gameQuestions["q"+qnum].q);
+        $("#pa"+random[0]).text(gameQuestions["q"+qnum].qa);
+        $("#pa"+random[1]).text(gameQuestions["q"+qnum].p1);
+        $("#pa"+random[2]).text(gameQuestions["q"+qnum].p2);
+        $("#pa"+random[3]).text(gameQuestions["q"+qnum].p3);
+        userPick();
+    }
+}   
+function reset(){
+    $("#message").css("display", "none");
+    $(".PA").css("display", "block");
+    $("#moviePoster").css({display: "none", width: "0", height: "0"});
+    $(".end").css("display", "none");
+
+
+}
 
 
 $("#start").on("click", function() {
@@ -121,4 +168,3 @@ $("#start").on("click", function() {
    
   
 });
-console.log(Math.floor(Math.random()*4));

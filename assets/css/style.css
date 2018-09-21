@@ -22,8 +22,10 @@ body {
     background-color: blue;
 }
 #moviePoster {
-    display:"none";
-    
-    
+  
+    display:  none;
 
+}
+.end{
+    display:none;
 }
