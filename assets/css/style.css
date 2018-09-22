@@ -1,31 +1,59 @@
 body {
-    background-image: url("../images/tiny-squares.png");
+
+    background-image: url("http://getwallpapers.com/wallpaper/full/3/c/5/19503.jpg");
+    background-size:     cover;                      
+    background-repeat:   no-repeat;            
     margin:60px;
+}
+h1 {
+    color: #e27d5f;
 }
 .jumbotron {
     padding-top: 32px;
     padding-bottom: 32px;
+    background-color:  #85cdca;
 }
 #start {
     margin-top:20px;
+    font-size:24px;
 }
 #start:hover {
-    background-color:red;
+    background-color: #4fbafe;
 }
 #time {
     display:none;
 }
 .PA {
+    display: none;
     margin-top: 20px;
 }
 .PA:hover {
-    background-color: blue;
+    background-color: #4fbafe;
 }
 #moviePoster {
-  
+    margin-top:20px;
     display:  none;
 
 }
 .end{
+    margin-top:20px;
     display:none;
+    color:   #0c3a6f;
+    font-size:18px;
+    font-weight: bold;
+}
+.PA {
+    margin-top:20px;
+    color:  #0c3a6f;
+    font-size:18px;
+    font-weight: bold;
+}
+.text {
+    margin-top:20px;
+    color:  #1F2833;
+    font-size:18px;
+    font-weight: bold;
+}
+#playAgain:hover {
+    background-color: #4fbafe;
 }
